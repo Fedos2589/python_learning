@@ -184,3 +184,13 @@ def test_first_non_empty(values, expected):
 )
 def test_describe_flag(flag, expected):
     assert describe_flag(flag) == expected
+
+
+def test_add_item_mutates_explicitly_passed_empty_basket():
+    """Пустая корзина передана явно — её и надо наполнить, а не создавать новую."""
+    basket: list[str] = []
+    result = add_item("a", basket)
+    assert result == ["a"]
+    assert basket == ["a"], (
+        "функция должна изменить переданный список, а не подменить его"
+    )

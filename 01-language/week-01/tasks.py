@@ -33,8 +33,6 @@ def count_words(text: str) -> int:
     count_words('раз два три') -> 3
     count_words('   ') -> 0
     """
-    if not text:
-        return 0
     return len(text.strip().split())
 
 
@@ -47,9 +45,6 @@ def middle_elements(items: list[int]) -> list[int]:
     middle_elements([1, 2, 3, 4, 5]) -> [2, 3, 4]
     middle_elements([1, 2]) -> []
     """
-    le = len(items)
-    if le < 3:
-        return []
     return items[1:-1]
 
 
@@ -119,7 +114,7 @@ def add_item(item: str, basket: list[str] | None = None) -> list[str]:
     add_item('x') -> ['x']
     add_item('y') -> ['y']   # не ['x', 'y']
     """
-    if not basket:
+    if basket is None:
         return [item]
     else:
         basket.append(item)
