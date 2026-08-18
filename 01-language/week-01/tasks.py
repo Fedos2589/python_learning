@@ -12,7 +12,7 @@ def format_price(amount: float, currency: str = "USD") -> str:
     format_price(1234.5) -> '1234.50 USD'
     format_price(10, 'EUR') -> '10.00 EUR'
     """
-    raise NotImplementedError
+    return f"{amount:.2f} {currency}"
 
 
 # --- Задача 02. Строки ------------------------------------------------------
@@ -23,7 +23,7 @@ def slugify(title: str) -> str:
 
     slugify('  Hello   Full Stack World ') -> 'hello-full-stack-world'
     """
-    raise NotImplementedError
+    return "-".join(title.strip().lower().split())
 
 
 # --- Задача 03. Списки и циклы ----------------------------------------------
@@ -33,7 +33,9 @@ def count_words(text: str) -> int:
     count_words('раз два три') -> 3
     count_words('   ') -> 0
     """
-    raise NotImplementedError
+    if not text:
+        return 0
+    return len(text.strip().split())
 
 
 # --- Задача 04. Срезы -------------------------------------------------------
@@ -45,7 +47,10 @@ def middle_elements(items: list[int]) -> list[int]:
     middle_elements([1, 2, 3, 4, 5]) -> [2, 3, 4]
     middle_elements([1, 2]) -> []
     """
-    raise NotImplementedError
+    le = len(items)
+    if le < 3:
+        return []
+    return items[1:-1]
 
 
 # --- Задача 05. Поиск в списке ----------------------------------------------
@@ -56,7 +61,11 @@ def second_largest(numbers: list[int]) -> int | None:
     second_largest([7, 7, 7]) -> None
     second_largest([]) -> None
     """
-    raise NotImplementedError
+    unique_sorted = sorted(set(numbers))
+    if len(unique_sorted) < 2:
+        return None
+    else:
+        return unique_sorted[-2]
 
 
 # --- Задача 06. Словари -----------------------------------------------------
@@ -65,7 +74,11 @@ def word_frequency(text: str) -> dict[str, int]:
 
     word_frequency('a b A') -> {'a': 2, 'b': 1}
     """
-    raise NotImplementedError
+    frequency = {}
+    words = text.strip().lower().split()
+    for word in words:
+        frequency[word] = frequency.get(word, 0) + 1
+    return frequency
 
 
 # --- Задача 07. Словари: безопасный доступ ----------------------------------
@@ -77,7 +90,13 @@ def get_nested(data: dict, keys: list[str], default=None):
     get_nested({'a': {'b': 1}}, ['a', 'b']) -> 1
     get_nested({'a': {}}, ['a', 'b'], 0) -> 0
     """
-    raise NotImplementedError
+    current = data
+    for key in keys:
+        if isinstance(current, dict) and key in current:
+            current = current[key]
+        else:
+            return default
+    return current
 
 
 # --- Задача 08. Множества ---------------------------------------------------
@@ -86,7 +105,7 @@ def common_tags(first: list[str], second: list[str]) -> list[str]:
 
     common_tags(['py', 'js', 'css'], ['js', 'py', 'go']) -> ['js', 'py']
     """
-    raise NotImplementedError
+    return sorted(set(first) & set(second))
 
 
 # --- Задача 09. Аргументы функции -------------------------------------------
@@ -100,7 +119,11 @@ def add_item(item: str, basket: list[str] | None = None) -> list[str]:
     add_item('x') -> ['x']
     add_item('y') -> ['y']   # не ['x', 'y']
     """
-    raise NotImplementedError
+    if not basket:
+        return [item]
+    else:
+        basket.append(item)
+        return basket
 
 
 # --- Задача 10. Именованные аргументы ---------------------------------------
@@ -112,7 +135,11 @@ def build_url(base: str, **params) -> str:
     build_url('/api', page=2, limit=10) -> '/api?limit=10&page=2'
     build_url('/api') -> '/api'
     """
-    raise NotImplementedError
+    if not params:
+        return base
+    else:
+        query = "&".join(f"{key}={value}" for key, value in sorted(params.items()))
+        return f"{base}?{query}"
 
 
 # --- Задача 11. Truthiness --------------------------------------------------
@@ -124,7 +151,9 @@ def first_non_empty(values: list) -> object | None:
     first_non_empty([0, '', None, 'ok', 'no']) -> 'ok'
     first_non_empty([0, '']) -> None
     """
-    raise NotImplementedError
+    for value in values:
+        if value:
+            return value
 
 
 # --- Задача 12. None vs False -----------------------------------------------
@@ -137,4 +166,9 @@ def describe_flag(flag: bool | None) -> str:
 
     Проверь себя: почему `if not flag` здесь не сработает?
     """
-    raise NotImplementedError
+    if flag is None:
+        return "не задан"
+    elif flag:
+        return "включён"
+    else:
+        return "выключен"
