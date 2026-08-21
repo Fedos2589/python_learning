@@ -56,11 +56,10 @@ def second_largest(numbers: list[int]) -> int | None:
     second_largest([7, 7, 7]) -> None
     second_largest([]) -> None
     """
-    unique_sorted = sorted(set(numbers))
-    if len(unique_sorted) < 2:
+    s_numbers = sorted(set(numbers))
+    if len(s_numbers) < 2:
         return None
-    else:
-        return unique_sorted[-2]
+    return s_numbers[-2]
 
 
 # --- Задача 06. Словари -----------------------------------------------------
@@ -69,11 +68,11 @@ def word_frequency(text: str) -> dict[str, int]:
 
     word_frequency('a b A') -> {'a': 2, 'b': 1}
     """
-    frequency = {}
-    words = text.strip().lower().split()
-    for word in words:
-        frequency[word] = frequency.get(word, 0) + 1
-    return frequency
+    cur = {}
+    arr = text.strip().lower().split()
+    for word in arr:
+        cur[word] = cur.get(word, 0) + 1
+    return cur
 
 
 # --- Задача 07. Словари: безопасный доступ ----------------------------------
@@ -85,13 +84,12 @@ def get_nested(data: dict, keys: list[str], default=None):
     get_nested({'a': {'b': 1}}, ['a', 'b']) -> 1
     get_nested({'a': {}}, ['a', 'b'], 0) -> 0
     """
-    current = data
+    cur = data
     for key in keys:
-        if isinstance(current, dict) and key in current:
-            current = current[key]
-        else:
+        if not isinstance(cur, dict) or key not in cur:
             return default
-    return current
+        cur = cur[key]
+    return cur
 
 
 # --- Задача 08. Множества ---------------------------------------------------
@@ -114,11 +112,11 @@ def add_item(item: str, basket: list[str] | None = None) -> list[str]:
     add_item('x') -> ['x']
     add_item('y') -> ['y']   # не ['x', 'y']
     """
-    if basket is None:
-        return [item]
-    else:
-        basket.append(item)
-        return basket
+    res = basket
+    if res is None:
+        res = []
+    res.append(item)
+    return res
 
 
 # --- Задача 10. Именованные аргументы ---------------------------------------
@@ -132,9 +130,8 @@ def build_url(base: str, **params) -> str:
     """
     if not params:
         return base
-    else:
-        query = "&".join(f"{key}={value}" for key, value in sorted(params.items()))
-        return f"{base}?{query}"
+    query = "&".join(f"{key}={value}" for key, value in sorted(params.items()))
+    return f"{base}?{query}"
 
 
 # --- Задача 11. Truthiness --------------------------------------------------
@@ -149,6 +146,7 @@ def first_non_empty(values: list) -> object | None:
     for value in values:
         if value:
             return value
+    return None
 
 
 # --- Задача 12. None vs False -----------------------------------------------
@@ -165,5 +163,4 @@ def describe_flag(flag: bool | None) -> str:
         return "не задан"
     elif flag:
         return "включён"
-    else:
-        return "выключен"
+    return "выключен"
